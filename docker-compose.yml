@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  order-returns-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: order-returns-management
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:articurateddb
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - JWT_SECRET=ArtiCuratedSecretKeyForJWTTokenGeneration2024SecureKey
+      - JWT_EXPIRATION=86400000
+      - PAYMENT_GATEWAY_URL=http://localhost:8080/mock-payment-gateway/refund
+    networks:
+      - order-returns-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  order-returns-network:
+    driver: bridge
+
