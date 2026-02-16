@@ -211,3 +211,4 @@ After running tests with coverage:
 
 Open the HTML report in a browser to view detailed coverage metrics.
 
+

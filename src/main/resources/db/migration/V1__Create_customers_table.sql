@@ -13,3 +13,4 @@ CREATE INDEX idx_customer_email ON customers(email);
 
 
 
+
